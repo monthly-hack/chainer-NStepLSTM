@@ -77,7 +77,7 @@ class Classifier(link.Chain):
         return self.loss, self.accuracy, count
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--batchsize', '-b', type=int, default=1000,
+parser.add_argument('--batchsize', '-b', type=int, default=500,
                     help='Number of examples in each mini-batch')
 parser.add_argument('--epoch', '-e', type=int, default=20,
                     help='Number of sweeps over the dataset to train')
@@ -89,12 +89,13 @@ parser.add_argument('--unit', '-u', type=int, default=500,
                     help='Number of LSTM units in each layer')
 parser.add_argument('--layer', '-l', type=int, default=2,
                     help='Number of LSTM layer')
-parser.add_argument('--cudnn', '-cu', type=bool, default=True,
-                    help='Use cudnn')
 parser.add_argument('--dropout', '-d', type=float, default=0.5,
                     help='Dropout ratio')
 parser.add_argument('--log', '-r', type=str, default='log',
                     help='Name of logfile')
+parser.add_argument('--cudnn', dest='use_cudnn', action='store_true')
+parser.add_argument('--no-cudnn', dest='use_cudnn', action='store_false')
+parser.set_defaults(use_cudnn=True)
 args = parser.parse_args()
 
 log_fn = '{}.txt'.format(args.log)
