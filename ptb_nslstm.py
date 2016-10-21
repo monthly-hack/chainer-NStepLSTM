@@ -85,8 +85,6 @@ parser.add_argument('--gpu', '-g', type=int, default=2,
                     help='GPU ID (negative value indicates CPU)')
 parser.add_argument('--gradclip', '-c', type=float, default=5,
                     help='Gradient norm threshold to clip')
-parser.add_argument('--out', '-o', default='result',
-                    help='Directory to output the result')
 parser.add_argument('--unit', '-u', type=int, default=500,
                     help='Number of LSTM units in each layer')
 parser.add_argument('--layer', '-l', type=int, default=2,
@@ -99,7 +97,7 @@ parser.add_argument('--log', '-r', type=str, default='log',
                     help='Name of logfile')
 args = parser.parse_args()
 
-log_fn = '{}/{}.txt'.format(args.out, args.log)
+log_fn = '{}.txt'.format(args.log)
 logging.basicConfig(
     format='%(asctime)s [%(levelname)s] %(message)s',
     filename=log_fn, level=logging.DEBUG)
@@ -165,5 +163,4 @@ for e in range(args.epoch):
 
     logging.info('# epoch = {}, loss = {}, acc = {}'.format(
         e, sum_loss, sum_acc / count))
-    chainer.serializers.save_npz(
-        '{}/{}'.format(args.out, 'nslstm_model.npz'), model)
+    chainer.serializers.save_npz('nslstm_model.npz', model)
