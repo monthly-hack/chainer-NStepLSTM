@@ -1,4 +1,4 @@
-# chainer-nsteplstm
+# Chainer-nsteplstm
 Sample code of NStepLSTM.  
 
 ## Requirements
