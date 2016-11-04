@@ -28,11 +28,8 @@ class RNN(chainer.Chain):
         )
 
     def __call__(self, hx, cx, xs, train=True):
-        sections = [None] * (len(xs) - 1)
-        sections[0] = len(xs[0])
-        for i,x in enumerate(xs[1:-1]):
-            sections[i+1] = sections[i] + len(x)
-        xs = F.split_axis(self.pre_embed(F.concat(xs, axis=0)), sections, axis=0)
+        sections = np.cumsum(np.array([len(x) for x in xs[:-1]], dtype=np.int32)) # CuPy does not have cumsum()
+        xs = F.split_axis(self.embed(F.concat(xs, axis=0)), sections, axis=0)
         hy, cy, ys = self.l1(hx, cx, xs, train=train)
         y = [self.l2(item) for item in ys]
         return y
