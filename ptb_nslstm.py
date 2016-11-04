@@ -120,7 +120,7 @@ n_words = sum([len(text) for text in texts])
 logging.info('#words = {}'.format(n_words))
 
 model = RNN(args.layer, n_vocab, args.unit,
-            args.dropout, args.cudnn)
+            args.dropout, args.use_cudnn)
 
 if args.gpu >= 0:
     chainer.cuda.get_device(args.gpu).use()
