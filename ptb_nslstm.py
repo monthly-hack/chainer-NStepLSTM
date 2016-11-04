@@ -32,7 +32,7 @@ class RNN(chainer.Chain):
         sections[0] = len(xs[0])
         for i,x in enumerate(xs[1:-1]):
             sections[i+1] = sections[i] + len(x)
-        xs = F.split_axis(self.pre_embed(F.concat(xs, axis=0)), sections, axis=0)
+        xs = F.split_axis(self.embed(F.concat(xs, axis=0)), sections, axis=0)
         hy, cy, ys = self.l1(hx, cx, xs, train=train)
         y = [self.l2(item) for item in ys]
         return y
